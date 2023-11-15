@@ -9,7 +9,12 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'your_secret_key'  # Cambia esto por una clave segura y aleatoria
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
+
+# Especifica la ruta completa de la carpeta estática
+app.static_folder = os.path.abspath("statics")
+
+app.secret_key = 'your_secret_key'  # ¿deberia ponerle una clave?
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -45,9 +50,12 @@ def index():
                     count += 1
 
                 text_to_audio(text_with_pauses, output_file)
-
-                # Devolver el archivo de audio para su descarga
+                
+                # Devolver el archivo de audio 
                 flash(f"Audio generado a partir de '{filename}' y guardado como '{output_file}'", 'success') if output_file else flash("Error al generar el audio", 'error')
+                # Borra el archivo después de descargarlo
+                os.remove(file_path)
+                
                 return send_file(output_file, as_attachment=True)
             except FileNotFoundError:
                 flash("El archivo especificado no existe.", 'error')
@@ -61,6 +69,7 @@ def index():
             return redirect(url_for("index"))
 
     return render_template("index.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
