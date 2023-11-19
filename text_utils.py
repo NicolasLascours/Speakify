@@ -3,35 +3,6 @@ from nltk.tokenize import sent_tokenize
 from langdetect import detect
 from deep_translator import GoogleTranslator
 
-def clean_pdf_text(raw_text):
-    try:
-        cleaned_text = re.sub(r'\b\d+\s', '', raw_text)
-        cleaned_text = re.sub(r'(?<=\w)\s+(?=\w)', '', cleaned_text)
-        return cleaned_text
-    except Exception as clean_pdf_error:
-        print(f"Error cleaning PDF text: {clean_pdf_error}")
-        raise clean_pdf_error
-
-def split_into_paragraphs(text):
-    try:
-        paragraphs = text.split('\n')
-        return paragraphs
-    except Exception as split_error:
-        print(f"Error splitting text into paragraphs: {split_error}")
-        raise split_error
-
-def identify_sections(paragraphs):
-    try:
-        section_indices = {}
-        for i, paragraph in enumerate(paragraphs):
-            if re.search(r'\b(?:Abstract|Resumen)\b', paragraph):
-                section_indices['abstract'] = i
-            elif re.search(r'\bBibliografía\b', paragraph):
-                section_indices['bibliography'] = i
-        return section_indices
-    except Exception as identify_sections_error:
-        print(f"Error identifying sections: {identify_sections_error}")
-        raise identify_sections_error
 
 def clean_txt_text(raw_text):
     try:
