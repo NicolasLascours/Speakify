@@ -9,10 +9,10 @@ VozLibro es una aplicación web que convierte texto, en cualquier idioma, a audi
 - Interfaz web simple y fácil de usar.
 
 ## Uso
-Sube un archivo de texto (PDF, DOCX, TXT) o ingresa tu propio texto.
-Selecciona el idioma deseado.
+Sube un archivo de texto (PDF, DOCX, TXT) que desees convertir a mp3.
 Haz clic en el botón "Descargar" para obtener el archivo de audio.
-Contribuciones
+
+## Contribuciones
 ¡Las contribuciones son bienvenidas! Si encuentras un error o tienes una mejora, siéntete libre de abrir un problema o enviar un pull request.
 
 ## Licencia
