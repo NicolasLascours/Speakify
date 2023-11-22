@@ -1,79 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convierte Texto a MP3</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" href="https://fontawesome.com/icons/ear-listen?f=classic&s=light&an=bounce&pc=%231f5151" type="image/x-ico">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>Speakify</h1>
+        <h1><i class="fas fa-ear"></i>VozLibro</h1>
 
         <!-- Formulario de Conversión -->
         <form method="POST" action="/" enctype="multipart/form-data" id="fileForm">
-            <label for="file" class="form-label">Seleccionar archivo</label>
+            <label for="file" class="form-label"></label>
             <input type="file" class="form-control" id="file" name="file" accept=".pdf, .docx, .txt">
-            <button type="submit" class="btn-primary" onclick="convertAndDownload()">Convertir</button>
+            <button type="submit" class="btn-primary">Descargar</button>
         </form>
 
+        <!-- Nuevo: Área de Texto -->
+        <div>
+            <label for="text" class="form-label">Texto para Leer:</label>
+            <textarea class="form-control" id="text" name="text" rows="4" placeholder="Escribe o pega tu texto aquí"></textarea>
+            <button type="button" onclick="readText()" class="btn-primary">Leer Texto</button>
+        </div>
         <!-- Mensajes Flash -->
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul class="flash-messages">
-                    {% for message in messages %}
-                        {% if message %}
-                            <li>{{ message }}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
+        {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+            {% if message %}
+            <li>{{ message }}</li>
             {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% endwith %}
-
-        <!-- Botones para descargar -->
-        <div id="downloadButtons" {% if output_file %}style="display: block;"{% else %}style="display: none;"{% endif %}>
-            <button type="button" class="btn-primary" id="downloadButton" onclick="downloadFile()" data-filename="{{ output_file }}">Descargar</button>
-        </div>
     </div>
 
-    <!-- Script para manejar la interacción del usuario -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        function convertAndDownload() {
-            // Enviar el formulario al servidor para la conversión
-            document.getElementById('fileForm').submit();
+    <img src="{{ url_for('static', filename='9657592.png') }}" alt="" class="img">
 
-            // Después de un breve retraso, mostrar los botones de descarga
-            setTimeout(function() {
-                document.getElementById('downloadButtons').style.display = 'block';
-            }, 1000); // Espera 1 segundo antes de mostrar los botones
-        }
-
-        function downloadFile() {
-            // Obtener el nombre del archivo del atributo data-filename
-            var filename = document.getElementById('downloadButton').getAttribute('data-filename');
-
-            // Redirigir al servidor para descargar el archivo
-            window.location.href = '/downloads/' + filename;
-
-            // Enviar solicitud al servidor para eliminar el archivo después de un breve retraso (puedes ajustar el tiempo según tus necesidades)
-            setTimeout(function() {
-                $.ajax({
-                    url: '/delete',
-                    type: 'POST',
-                    data: { 'output_file': filename },  // Enviar el nombre del archivo para la eliminación
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function(error) {
-                        console.error('Error al enviar la solicitud de eliminación:', error);
-                    }
-                });
-            }, 1000); // Espera 1 segundo antes de enviar la solicitud de eliminación
-        }
-    </script>
 </body>
 </html>

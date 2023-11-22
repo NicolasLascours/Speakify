@@ -1,6 +1,5 @@
 import os
 import re
-import time
 from conversion import translate_text, text_to_audio, process_file
 from flask import Flask, render_template, request, flash, send_file, redirect, url_for, after_this_request
 
@@ -40,7 +39,7 @@ def index():
 
                 base_name = os.path.splitext(filename)[0]
                 output_file = f"{base_name}.mp3"
-                count = 0
+                count = 1
 
                 while os.path.exists(output_file):
                     output_file = f"{base_name}_{count}.mp3"
@@ -51,12 +50,13 @@ def index():
                 # Mueve el archivo a la carpeta downloads 
                 download_path = os.path.join(downloads_directory, output_file)
                 os.rename(output_file, download_path)
-               
-                # Mensaje Flash 
+
+                # Flash message 
                 flash("Conversión exitosa.", 'success')
                 os.remove(file_path)
-                # Redirect to index 
-                #return redirect(url_for('index'))
+
+                # Envía el archivo al usuario como descarga
+                return send_file(download_path, as_attachment=True)
 
             except FileNotFoundError:
                 flash("El archivo especificado no existe.", 'error')
@@ -66,35 +66,7 @@ def index():
                 print(f"Ocurrió un error: {e}")
                 flash("Ocurrió un error inesperado. Por favor, intenta nuevamente.", 'error')
 
-    if output_file:
-        return redirect(url_for('download_file', filename=output_file))
-    else:
-        return render_template("index.html", output_file=output_file)
-
-@app.route("/downloads/<filename>", methods=["GET"])
-def download_file(filename):
-    try:
-        if filename is None:
-            raise Exception("Nombre de archivo no válido")
-
-        download_path = os.path.join(downloads_directory, filename)
-
-        if os.path.exists(download_path):
-            @after_this_request
-            def remove_file(response):
-                try:
-                    os.remove(download_path)
-                except Exception as error:
-                    print(f"Error al eliminar el archivo descargado: {error}")
-                return response
-
-            return send_file(download_path, as_attachment=True)
-        else:
-            raise Exception("El archivo no existe en la carpeta de descargas.")
-
-    except Exception as e:
-        print(f"Error al descargar el archivo: {e}")
-        return "Error al descargar el archivo", 500
+    return render_template("index.html", output_file=output_file)
 
 if __name__ == "__main__":
     app.run(debug=True)
