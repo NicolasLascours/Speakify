@@ -1,8 +1,6 @@
-/* style.css */
-
 /* Estilos generales del cuerpo */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Didot', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,110 +8,118 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #f2f2f2; /* Color de fondo */
-    font-family: 'MiFuente', sans-serif;
+    background-color: #f8f8f8;
 }
+
+.img {
+    max-width: 32%; /* Ajusta el ancho máximo de la imagen según el contenedor */
+    height: auto; /* Mantiene la proporción de aspecto de la imagen */
+    border-radius: 8px; /* Añade bordes redondeados si es necesario */
+    /* Otros estilos según tus necesidades */
+}
+
 
 /* Estilos del contenedor principal */
 .container {
     max-width: 600px;
     width: 100%;
-    padding: 20px;
+    padding: 30px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 10px;
     text-align: center;
-    background-color: #fff; /* Color de fondo del contenedor */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos del encabezado h1 */
 h1 {
     text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Estilos del formulario */
-form {
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 30px;
+    font-size: 36px;
+    color: #0f0f0f;
 }
 
 /* Estilos de las etiquetas del formulario */
 .form-label {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    display: block;
+    color: #242424;
 }
 
 /* Estilos de los controles del formulario */
 .form-control {
-    margin-bottom: 16px;
-    padding: 8px;
+    margin-bottom: 20px;
+    padding: 14px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-@font-face {
-    font-family: 'MiFuente'; /* Puedes darle el nombre que desees */
-    src: url('/static/fonts/mifuente.woff2') format('woff2'),
-         url('/static/fonts/mifuente.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
 }
 
 /* Estilos del botón principal del formulario */
 .btn-primary {
     background-color: #3498db;
     color: #fff;
-    padding: 10px 24px;
+    padding: 16px 24px;
     border: 1px solid #2980b9;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-primary:hover {
-    background-color: #2980b9; /* Cambia de color al pasar el ratón sobre el botón */
+/* Estilos para el botón de "Elegir archivo" */
+.form-control[type="file"] {
+    background-color: #ccc;
+    color: #fff;
+    border: 1px solid #2980b9;
+    padding: 16px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Estilos de los mensajes flash */
+.form-control[type="file"]:hover {
+    background-color: #2980b9;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
 /* Estilos para los mensajes flash */
 .flash-messages {
     list-style: none;
     padding: 0;
-    margin-top: 20px; /* Agregado espacio entre el formulario y los mensajes flash */
+    margin-top: 30px;
 }
 
 /* Estilos para los elementos de la lista de mensajes flash */
 .flash-messages li {
-    margin-bottom: 12px;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 18px;
+    border-radius: 8px;
+    font-size: 18px;
     font-weight: bold;
     text-align: center;
 }
 
 /* Estilos para diferentes tipos de mensajes */
 .flash-messages .success {
-    background-color: #dff0d8; /* Verde claro para mensajes de éxito */
-    color: #3c763d;
+    background-color: #e1f7d8;
+    color: #4caf50;
 }
 
 .flash-messages .error {
-    background-color: #f2dede; /* Rojo claro para mensajes de error */
-    color: #a94442;
+    background-color: #f8d7da;
+    color: #dc3545;
 }
 
 .flash-messages .warning {
-    background-color: #fcf8e3; /* Amarillo claro para mensajes de advertencia */
-    color: #8a6d3b;
+    background-color: #fff3cd;
+    color: #ffc107;
 }
-
 
 @media screen and (max-width: 600px) {
     .form-control {
         width: 100%;
     }
 }
-
