@@ -1,4 +1,3 @@
-import re
 from nltk.tokenize import sent_tokenize
 from langdetect import detect
 from deep_translator import GoogleTranslator

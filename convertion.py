@@ -6,6 +6,10 @@ from text_utils import read_txt, detect_language, split_text_into_sentences, tra
 
 def translate_text(text, target_lang='es', chunk_size=4999):
     try:
+        # Verificar si el texto no está vacío después de eliminar espacios en blanco
+        if not text.strip():
+            return text  # Devolver el texto original si está vacío
+
         source_lang = detect_language(text)
 
         if source_lang == target_lang:
@@ -27,6 +31,7 @@ def translate_text(text, target_lang='es', chunk_size=4999):
 
         result = ' '.join(translations)
         return result.strip()
+
     except Exception as translate_text_error:
         print(f"Error translating text: {translate_text_error}")
         raise translate_text_error
