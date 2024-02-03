@@ -1,7 +1,7 @@
 import os
 import re
+from flask import Flask, render_template, request, flash, send_file
 from convertion import translate_text, text_to_audio, process_file
-from flask import Flask, render_template, request, flash, send_file, redirect, url_for, after_this_request
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
@@ -14,8 +14,6 @@ app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
 current_directory = os.path.dirname(os.path.abspath(__file__))
 downloads_directory = os.path.join(current_directory, 'downloads')
 
-# Configuración de la carpeta estática y la clave secreta
-app.static_folder = os.path.abspath("static")
 app.secret_key = os.urandom(24)
 
 def allowed_file(filename):
@@ -37,26 +35,24 @@ def index():
                 translated_text = translate_text(text, target_lang='es')
                 text_with_pauses = re.sub(r'[,;:.\n]', r'\g<0> ', translated_text)
 
-                base_name = os.path.splitext(filename)[0]
+                base_name, extension = os.path.splitext(filename)
                 output_file = f"{base_name}.mp3"
                 count = 1
 
-                while os.path.exists(output_file):
+                while os.path.exists(os.path.join(downloads_directory, output_file)):
                     output_file = f"{base_name}_{count}.mp3"
                     count += 1
 
-                text_to_audio(text_with_pauses, output_file)
-
-                # Mueve el archivo a la carpeta downloads 
-                download_path = os.path.join(downloads_directory, output_file)
-                os.rename(output_file, download_path)
+                text_to_audio(text_with_pauses, os.path.join(downloads_directory, output_file))
 
                 # Flash message 
                 flash("Conversión exitosa.", 'success')
+
+                # Elimina el archivo de subida
                 os.remove(file_path)
 
                 # Envía el archivo al usuario como descarga
-                return send_file(download_path, as_attachment=True)
+                return send_file(os.path.join(downloads_directory, output_file), as_attachment=True)
 
             except FileNotFoundError:
                 flash("El archivo especificado no existe.", 'error')

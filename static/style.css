@@ -1,3 +1,22 @@
+.title {
+    font-family: 'Roboto', sans-serif;
+    font-size: 60px;
+    color: #000000;
+    text-align: center;
+    margin-top: 0px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 0px;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+    }
+
+header {
+        margin-top: 0; /* Elimina cualquier margen superior que tenga por defecto */
+        padding-top: 0; /* Añade un espacio de 20px arriba del header */
+    }
+    
 /* Estilos generales del cuerpo */
 body {
     font-family: 'Didot', sans-serif;
@@ -5,99 +24,89 @@ body {
     padding: 0;
     box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #f8f8f8;
+    min-height: 100vh;
+    background-image: url("/static/9657592.png"); /* Ruta de la imagen */
+    background-size: 83%; /* La imagen cubrirá todo el fondo */
+    background-position: center; /* La imagen estará centrada */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-attachment: fixed; /* Fija la imagen en su posición mientras se desplaza el contenido */
 }
 
 .img {
-    max-width: 32%; /* Ajusta el ancho máximo de la imagen según el contenedor */
-    height: auto; /* Mantiene la proporción de aspecto de la imagen */
-    border-radius: 8px; /* Añade bordes redondeados si es necesario */
-    /* Otros estilos según tus necesidades */
+    max-width: 32%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 20px; /* Añadido margen superior */
 }
-
 
 /* Estilos del contenedor principal */
 .container {
-    max-width: 600px;
-    width: 100%;
-    padding: 30px;
+    max-width: 500px; /* Reducir el ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar el contenedor horizontalmente */
+    padding: 10px; /* Reducir el relleno del contenedor */
     border: 1px solid #ddd;
     border-radius: 10px;
     text-align: center;
-    background-color: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px; /* Espacio superior al contenedor */
+    margin-bottom: 20px; /* Espacio inferior al contenedor */
 }
 
-/* Estilos del encabezado h1 */
 h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 36px;
-    color: #0f0f0f;
-}
-
-/* Estilos de las etiquetas del formulario */
-.form-label {
-    margin-bottom: 12px;
-    display: block;
-    color: #242424;
-}
-
-/* Estilos de los controles del formulario */
-.form-control {
+    font-size: 20px; /* Reducir el tamaño del título */
     margin-bottom: 20px;
-    padding: 14px;
-    border: 1px solid #ccc;
+}
+
+.form-label {
+    margin-bottom: 8px; /* Reducir el espacio entre etiquetas y controles */
+    display: block;
+    color: #555;
+    font-size: 14px; /* Reducir el tamaño del texto del formulario */
+}
+
+.form-control {
+    margin-bottom: 10px; /* Reducir el espacio entre controles */
+    padding: 10px; /* Reducir el relleno de los controles */
+    border: 1px solid #b4b2b2;
     border-radius: 6px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 75%; /* Ajustar el ancho de los controles al 100% */
 }
 
-/* Estilos del botón principal del formulario */
+.form-control[type="file"]:hover {
+    background-color: #b8d8ec;
+}
+
 .btn-primary {
     background-color: #3498db;
     color: #fff;
-    padding: 16px 24px;
+    padding: 12px 15px; /* Reducir el tamaño del botón */
     border: 1px solid #2980b9;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Estilos para el botón de "Elegir archivo" */
-.form-control[type="file"] {
-    background-color: #ccc;
-    color: #fff;
-    border: 1px solid #2980b9;
-    padding: 16px 24px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.form-control[type="file"]:hover {
-    background-color: #2980b9;
-}
-
 .btn-primary:hover {
     background-color: #2980b9;
 }
 
-/* Estilos para los mensajes flash */
+/* Estilos para los mensajes de flash */
 .flash-messages {
     list-style: none;
     padding: 0;
-    margin-top: 30px;
+    margin-top: 20px; /* Reducir el espacio superior de los mensajes flash */
 }
 
-/* Estilos para los elementos de la lista de mensajes flash */
 .flash-messages li {
-    margin-bottom: 20px;
-    padding: 18px;
-    border-radius: 8px;
-    font-size: 18px;
+    margin-bottom: 12px; /* Reducir el espacio entre los mensajes flash */
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px; /* Reducir el tamaño del texto de los mensajes flash */
     font-weight: bold;
     text-align: center;
 }
@@ -120,6 +129,42 @@ h1 {
 
 @media screen and (max-width: 600px) {
     .form-control {
-        width: 100%;
+        width: 75%;
     }
 }
+
+/* Estilos para el pie de página */
+footer {
+    background-color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 10px; /* Tamaño de fuente más pequeño */
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.redes-sociales {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.redes-sociales li {
+    margin-right: 1px;
+    margin-left: 8px;
+}
+
+.redes-sociales li a {
+    color: #333;
+    font-size: 20px;
+}
+
