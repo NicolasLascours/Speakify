@@ -1,9 +1,11 @@
+from flask import Flask, render_template, request, flash, send_file
 import os
 import re
-from flask import Flask, render_template, request, flash, send_file
+import shutil
 from convertion import translate_text, text_to_audio, process_file
 
 UPLOAD_FOLDER = 'uploads'
+DOWNLOAD_FOLDER = 'downloads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'docx'}
 
 app = Flask(__name__)
@@ -18,6 +20,18 @@ app.secret_key = os.urandom(24)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def clean_downloads_folder(folder_path):
+    """
+    Limpiar la carpeta de descargas eliminando todos los archivos en ella.
+    """
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(f"No se pudo eliminar {file_path}: {e}")
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -53,7 +67,7 @@ def index():
 
                 # Envía el archivo al usuario como descarga
                 return send_file(os.path.join(downloads_directory, output_file), as_attachment=True)
-
+                
             except FileNotFoundError:
                 flash("El archivo especificado no existe.", 'error')
             except ValueError:
@@ -61,6 +75,9 @@ def index():
             except Exception as e:
                 print(f"Ocurrió un error: {e}")
                 flash("Ocurrió un error inesperado. Por favor, intenta nuevamente.", 'error')
+
+    # Limpia la carpeta de descargas
+    clean_downloads_folder(downloads_directory)
 
     return render_template("index.html", output_file=output_file)
 
