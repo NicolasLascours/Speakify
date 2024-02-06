@@ -1,4 +1,5 @@
 import os
+import re
 import pyttsx3
 from pdf_utils import read_pdf
 from docx_utils import read_docx
@@ -71,3 +72,21 @@ def process_file(file_path):
     except Exception as process_file_error:
         print(f"Error processing file: {process_file_error}")
         raise process_file_error
+    
+
+def translate_and_convert_to_audio(input_file, output_directory):
+    text = process_file(input_file)
+    translated_text = translate_text(text, target_lang='es')
+    text_with_pauses = re.sub(r'[,;:.\n]', r'\g<0> ', translated_text)
+
+    base_name, _ = os.path.splitext(os.path.basename(input_file))
+    output_file = f"{base_name}.mp3"
+    count = 1
+
+    while os.path.exists(os.path.join(output_directory, output_file)):
+        output_file = f"{base_name}_{count}.mp3"
+        count += 1
+
+    text_to_audio(text_with_pauses, os.path.join(output_directory, output_file))
+
+    return output_file
