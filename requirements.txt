@@ -1,7 +1,7 @@
 Flask==2.0.1
 nltk==3.6.2
 langdetect==1.0.9
-deep_translator
+deep-translator==1.11.4
 pyttsx3==2.90
 reportlab==4.0.9
 PyPDF2==1.26.0

@@ -4,6 +4,8 @@ from convertion import translate_and_convert_to_audio
 import os
 
 app = Flask(__name__)
+PORT = 5000
+DEBUG = False
 app.secret_key = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
@@ -42,4 +44,4 @@ def index():
     return render_template("index.html", output_file=output_file)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=PORT, debug=DEBUG)
