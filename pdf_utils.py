@@ -1,6 +1,10 @@
-import PyPDF2
+import PyPDF4
 from reportlab.pdfgen import canvas
 import io, re, logging, os
+
+import PyPDF4
+from reportlab.pdfgen import canvas
+import io, os
 
 def flatten_pdf(input_pdf, output_pdf):
     """
@@ -18,18 +22,17 @@ def flatten_pdf(input_pdf, output_pdf):
     """
     try:        
         with open(input_pdf, 'rb') as file:
-            pdf_reader = PyPDF2.PdfReader(file)
-            pdf_writer = PyPDF2.PdfFileWriter()
+            pdf_reader = PyPDF4.PdfFileReader(file)
+            pdf_writer = PyPDF4.PdfFileWriter()
 
-
-            for page_number in range(len(pdf_reader.pages)):
+            for page_number in range(pdf_reader.numPages):
                 page = pdf_reader.getPage(page_number)
                 packet = io.BytesIO()
                 can = canvas.Canvas(packet, pagesize=page.cropBox)
                 can.showPage()
                 can.save()
                 packet.seek(0)
-                new_pdf = PyPDF2.PdfReader(packet)
+                new_pdf = PyPDF4.PdfFileReader(packet)
                 page.mergePage(new_pdf.getPage(0))
                 pdf_writer.addPage(page)
 
@@ -97,7 +100,7 @@ def read_pdf(pdf_file):
         flattened_pdf = flatten_pdf(pdf_file, "flattened_output.pdf")  # Flatten the PDF before processing
 
         with open(flattened_pdf, "rb") as flattened_file:
-            pdf_reader = PyPDF2.PdfFileReader(flattened_file)
+            pdf_reader = PyPDF4.PdfFileReader(flattened_file)
             text = ""
 
             for page_number in range(pdf_reader.numPages):
