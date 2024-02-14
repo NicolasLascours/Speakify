@@ -11,6 +11,9 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024  # 32 MB
 downloads_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'downloads')
 
+if not os.path.exists(downloads_directory):
+    os.makedirs(downloads_directory)
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     output_file = None
