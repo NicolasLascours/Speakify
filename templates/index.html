@@ -26,6 +26,10 @@
             </form>
 
             <!-- Mensajes Flash -->
+            {% if error_message %}
+                <div class="flash-message flash-error">{{ error_message }}</div>
+            {% endif %}
+
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}

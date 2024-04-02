@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, send_file
+from flask import Flask, render_template, request, flash, send_file, redirect, url_for, session
 from utils import clean_downloads_folder, allowed_file
 from convertion import translate_and_convert_to_audio
 import os
@@ -17,6 +17,7 @@ if not os.path.exists(downloads_directory):
 @app.route("/", methods=["GET", "POST"])
 def index():
     output_file = None
+    error_message = None
 
     if request.method == "POST":
         input_file = request.files["file"]
@@ -35,16 +36,28 @@ def index():
                 return send_file(os.path.join(downloads_directory, output_file), as_attachment=True)
                 
             except FileNotFoundError:
-                flash("El archivo especificado no existe.", 'error')
+                error_message = "El archivo especificado no existe."
             except ValueError:
-                flash("Error al procesar el archivo. Asegúrate de que sea un archivo TXT, PDF o DOCX válido.", 'error')
+                error_message = "Error al procesar el archivo. Asegúrate de que sea un archivo TXT, PDF o DOCX válido."
             except Exception as e:
-                flash("Ocurrió un error inesperado. Por favor, intenta nuevamente.", 'error')
+                error_message = "Ocurrió un error inesperado. Por favor, intenta nuevamente."
                 print(f"Ocurrió un error: {e}")
+                
+            # Si ocurre un error, establecer el mensaje de error en la sesión
+            session['error_message'] = error_message
+
+            # Redirigir a la misma página para evitar que se reenvíe el formulario
+            return redirect(url_for('index'))
+
+    # Limpiar los mensajes de error de la sesión
+    session.pop('error_message', None)
 
     clean_downloads_folder(downloads_directory)
 
-    return render_template("index.html", output_file=output_file)
+    # Obtener el mensaje de error de la sesión
+    error_message = session.get('error_message')
+
+    return render_template("index.html", output_file=output_file, error_message=error_message)
 
 if __name__ == "__main__":
     app.run(port=PORT, debug=DEBUG)
